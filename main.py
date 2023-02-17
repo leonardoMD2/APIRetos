@@ -4,7 +4,7 @@ from configs.sqlalchemy_configs import Session, Base, engine
 from database.database import Retos, RetosEntregados
 from datetime import datetime, timedelta
 from utils.utils import  get_difficulty, random_reto_dif,guardar_entrega
-
+from services.get_services import RetoGetServices
 Base.metadata.create_all(engine)
 app = FastAPI()
 
@@ -14,7 +14,10 @@ def bienvenida():
 
 @app.get('/nuevoreto')
 def entrega_reto():
-    intervalo_semanal = timedelta(days=7)
+    db = Session()
+    res = RetoGetServices(db).get_new_reto()
+    return res
+    '''intervalo_semanal = timedelta(days=7)
     db = Session()
     #obtenemos el último reto
     ultimo_reto = db.query(RetosEntregados).order_by(RetosEntregados.fecha_entrega.desc()).first()
@@ -26,4 +29,4 @@ def entrega_reto():
     else:
         reto_entregado = db.query(RetosEntregados).order_by(RetosEntregados.id.desc()).first()
         reto = db.query(Retos).filter(Retos.id==reto_entregado.id).first()
-        return JSONResponse(content={'Reto':reto.reto, 'dificultad':reto.dificultad})
+        return JSONResponse(content={'Reto':reto.reto, 'dificultad':reto.dificultad})'''
