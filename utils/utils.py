@@ -21,9 +21,6 @@ def get_difficulty(month):
     else:
         return 'alta'
         
-def get_random_challenge(difficulty):
-    return random_reto_dif(difficulty)
-        
 def guardar_entrega(reto):
     db = Session()
     nueva_entrega = RetosEntregados(reto_id=reto.id, fecha_entrega=datetime.now())
